@@ -1,0 +1,195 @@
+{
+    "dataBinding": {
+        "dataRoles": [
+            {
+                "name": "values",
+                "displayNameKey": "数值",
+                "kind": "value",
+                "options": [
+                    {
+                        "displayNameKey": "数据格式",
+                        "type": "format",
+                        "name": "valueFormat"
+                    },
+                    {
+                        "displayNameKey": "数据单位",
+                        "type": "displayUnit",
+                        "name": "valueDisplayUnit"
+                    }
+                ]
+            },
+            {
+                "name": "category",
+                "displayNameKey": "分类",
+                "kind": "grouping"
+            },
+            {
+                "name": "longitude",
+                "displayNameKey": "经度",
+                "kind": "grouping",
+                "acceptedTypes" : [
+                    "geoLongitude"
+                ]
+            },
+            {
+                "name": "latitude",
+                "displayNameKey": "纬度",
+                "kind": "grouping",
+                "acceptedTypes" : [
+                    "geoLatitude"
+                ]
+            },
+            {
+                "name" : "tooltip",
+                "displayNameKey" : "提示标签",
+                "kind" : "attributeOrValue",
+                "options" : [
+                    {
+                        "type" : "tooltipContentSetting",
+                        "name" : "tooltipContentSetting",
+                        "displayNameKey" : "提示设置"
+                    }
+                ]
+            }
+        ],
+        "dataViewMappings": [
+            {
+                "plain": {
+                    "required": [
+                        {
+                            "values": {
+                                "min": 1
+                            },
+                            "longitude": {
+                                "min": 0
+                            },
+                            "latitude": {
+                                "min": 0
+                            }
+                        },
+                        {
+                            "values": {
+                                "min": 1
+                            },
+                            "longitude": {
+                                "min": 1
+                            },
+                            "latitude": {
+                                "min": 1
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "conditions": [
+            {
+                "values": {
+                    "max": 1
+                },
+                "longitude": {
+                    "max": 1
+                },
+                "latitude": {
+                    "max": 1
+                }
+            }
+        ]
+    },
+    "options": {
+        "visual" : [
+            {
+                "displayName": "地图设置",
+                "properties": [
+                    {
+                        "name": "zoomEnable",
+                        "type": "Boolean",
+                        "displayName": "是否允许缩放",
+                        "defaultValue": true
+                    },
+                    {
+                        "displayNameKey": "地图缩放级别",
+                        "name": "zoom",
+                        "type": "Integer",
+                        "max": 28,
+                        "min": 3,
+                        "defaultValue": 3
+                    },
+                    {
+                        "name": "centralLocation",
+                        "type": "Text",
+                        "displayName": "地图中心点",
+                        "defaultValue": "中国"
+                    },
+                    {
+                        "name" : "coordinates",
+                        "type" : "Enum",
+                        "displayName" : "坐标系",
+                        "items" : [
+                            {
+                                "value" : "WGS84",
+                                "displayName" : "GPS坐标"
+                            },
+                            {
+                                "value" : "GCJ02",
+                                "displayName" : "国测坐标"
+                            },
+                            {
+                                "value" : "BD09",
+                                "displayName" : "百度坐标"
+                            }
+                        ],
+                        "defaultValue" : "BD09"
+                    }, {
+                        "name" : "customerPoint",
+                        "displayName" : "自定义点位",
+                        "type" : "Collection",
+                        "itemShape" : [
+                            {
+                                "name" : "latitude",
+                                "displayName" : "纬度",
+                                "type" : "Float"
+                            },
+                            {
+                                "name" : "longitude",
+                                "displayName" : "经度",
+                                "type" : "Float"
+                            },
+                            {
+                                "name" : "pointName",
+                                "displayName" : "点位名称",
+                                "type" : "Text"
+                            },
+                            {
+                                "name" : "customeCoordinates",
+                                "type" : "Enum",
+                                "displayName" : "点位坐标系",
+                                "items" : [
+                                    {
+                                        "value" : "WGS84",
+                                        "displayName" : "GPS坐标"
+                                    },
+                                    {
+                                        "value" : "GCJ02",
+                                        "displayName" : "国测坐标"
+                                    },
+                                    {
+                                        "value" : "BD09",
+                                        "displayName" : "百度坐标"
+                                    }
+                                ],
+                                "defaultValue" : "BD09"
+                            }
+                            
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "interaction"
+            }
+        ]
+    },
+    "actions": [],
+    "analysis": []
+}

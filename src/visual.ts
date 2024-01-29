@@ -5,7 +5,7 @@ import gcoord from "gcoord";
 import { gcoordType } from "./coordinates";
 import { OPTIONKEY } from "./optionKey";
 import "bmapgllibs";
-import "./AreaRestriction_min.js";
+// import "./AreaRestriction_min.js";wyn
 import { debounce, debounceTime, fromEvent, tap } from "rxjs";
 
 export default class Visual extends WynVisual {

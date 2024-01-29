@@ -5,8 +5,9 @@ import gcoord from "gcoord";
 import { gcoordType } from "./coordinates";
 import { OPTIONKEY } from "./optionKey";
 import "bmapgllibs";
-// import "./AreaRestriction_min.js";wyn
+import "./AreaRestriction_min.js";
 import { debounce, debounceTime, fromEvent, tap } from "rxjs";
+import markerImage from '../assets/marker_red.png';
 
 export default class Visual extends WynVisual {
   private static root: Visual;
@@ -18,15 +19,23 @@ export default class Visual extends WynVisual {
   private map: BMapGL.Map;
   private _lngKey: string;
   private _latKey: string;
-  private pointsData: any[];
   private properties: any;
   private points: BMapGL.Point[] = [];
   private markers: BMapGL.Marker[] = [];
+  private monitorMarkers: BMapGL.Marker[] = [];
 
   private minLng: number = 999;
   private minLat: number = 999;
   private maxLng: number = -999;
   private maxLat: number = -999;
+  private HugeIcon : BMapGL.Icon = new BMapGL.Icon(
+    markerImage,
+    new BMapGL.Size(30,30)
+  )
+  private NormalIcon : BMapGL.Icon = new BMapGL.Icon(
+    markerImage,
+    new BMapGL.Size(23,25)
+  )
 
   constructor(
     dom: HTMLDivElement,
@@ -59,6 +68,9 @@ export default class Visual extends WynVisual {
     this.map.addControl(zoomCtrl);
     fromEvent(this.map, "click").subscribe((pointer) => {
       this.selectionManager.clear();
+      this.markers.forEach(marker => {
+        marker.setIcon(this.NormalIcon);
+    })
     });
   }
 
@@ -88,6 +100,7 @@ export default class Visual extends WynVisual {
         this.minLat = point[1];
       }
       let mapPoint = new BMapGL.Point(point[0], point[1]);
+      
       let marker = new BMapGL.Marker(mapPoint);
 
       this.points.push(mapPoint);
@@ -119,8 +132,12 @@ export default class Visual extends WynVisual {
       fromEvent(marker, "click")
         .pipe( tap((e)=> { e.domEvent.stopPropagation();}))
         .subscribe((pointer) => {
+          this.markers.forEach(marker => {
+              marker.setIcon(this.NormalIcon);
+          })
+          marker.setIcon(this.HugeIcon);
           this.selectionManager.clear();
-          this.host.toolTipService.hide();
+          // this.host.toolTipService.hide();
           this.host.contextMenuService.hide();
 
           const selectionId = this.host.selectionService.createSelectionId();
@@ -172,6 +189,48 @@ export default class Visual extends WynVisual {
         this.properties[OPTIONKEY.ZOOM_LEVE]
       );
     }
+    this.addMonitorArea();
+  }
+
+  private addMonitorArea(){
+    this.monitorMarkers = [];
+    this.monitorMarkers = 
+    this.properties[OPTIONKEY.CUSTOME_POINT].map(monitor =>{
+      let monitorMarker:BMapGL.Marker;
+      if(monitor[OPTIONKEY.CUSTOME_LAT] &&
+        monitor[OPTIONKEY.CUSTOME_LNG] &&
+        monitor[OPTIONKEY.CUSTOME_COORDINATES] &&
+        monitor[OPTIONKEY.CUSTOME_IMAGE] 
+        ){
+          let point = gcoord.transform(
+            [monitor[OPTIONKEY.CUSTOME_LNG], monitor[OPTIONKEY.CUSTOME_LAT]],
+            gcoordType(monitor[OPTIONKEY.CUSTOME_COORDINATES]),
+            gcoord.BD09
+          );
+          let mapPoint = new BMapGL.Point(point[0], point[1]);
+          monitorMarker = new BMapGL.Marker(mapPoint);
+          let Icon = new BMapGL.Icon(monitor[OPTIONKEY.CUSTOME_IMAGE],
+            new BMapGL.Size(100,100))
+          monitorMarker.setIcon(Icon);
+          // make a monitor point label
+          var opts = {
+            width: 200,
+            height: 100,
+            title: monitor[OPTIONKEY.CUSTOME_POINT_NAME]
+        };
+        var infoWindow = new BMapGL.InfoWindow('', opts);
+          fromEvent(monitorMarker,"click")
+          .pipe(
+            tap(e => { e.domEvent.stopPropagation();})
+          ).subscribe((pointer)=>{
+              this.map.openInfoWindow(infoWindow, mapPoint); // 开启信息窗口
+          })
+        }
+        return monitorMarker;
+    })
+    this.monitorMarkers.map(marker => {
+      this.map.addOverlay(marker);
+    })
   }
 
   public onDestroy(): void {}

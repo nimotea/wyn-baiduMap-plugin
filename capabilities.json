@@ -141,7 +141,7 @@
                         ],
                         "defaultValue" : "BD09"
                     }, {
-                        "name" : "customerPoint",
+                        "name" : "customePoint",
                         "displayName" : "自定义点位",
                         "type" : "Collection",
                         "itemShape" : [
@@ -159,6 +159,11 @@
                                 "name" : "pointName",
                                 "displayName" : "点位名称",
                                 "type" : "Text"
+                            },
+                            {
+                                "name" : "pointImage",
+                                "displayName" : "点位图片",
+                                "type" : "Image"
                             },
                             {
                                 "name" : "customeCoordinates",

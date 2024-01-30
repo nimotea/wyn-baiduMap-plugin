@@ -146,13 +146,13 @@
                         "type" : "Collection",
                         "itemShape" : [
                             {
-                                "name" : "latitude",
-                                "displayName" : "纬度",
+                                "name" : "longitude",
+                                "displayName" : "经度",
                                 "type" : "Float"
                             },
                             {
-                                "name" : "longitude",
-                                "displayName" : "经度",
+                                "name" : "latitude",
+                                "displayName" : "纬度",
                                 "type" : "Float"
                             },
                             {
@@ -184,6 +184,21 @@
                                     }
                                 ],
                                 "defaultValue" : "BD09"
+                            },{
+                                "name" : "pointRadius",
+                                "type" : "Integer",
+                                "displayName" : "预警半径(米)",
+                                "defaultValue" : 5000
+                            },{
+                                "name" : "pointNormalColor",
+                                "type" : "Color",
+                                "displayName" : "正常预警圈颜色",
+                                "defaultValue" : "rgba(101, 252, 165, 1)"
+                            },{
+                                "name" : "pointWarnColor",
+                                "type" : "Color",
+                                "displayName" : "警告预警圈颜色",
+                                "defaultValue" : "rgba(255, 26, 16, 1)"
                             }
                             
                         ]

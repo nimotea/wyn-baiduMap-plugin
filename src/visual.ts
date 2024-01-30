@@ -22,6 +22,7 @@ export default class Visual extends WynVisual {
   private properties: any;
   private points: BMapGL.Point[] = [];
   private markers: BMapGL.Marker[] = [];
+  private circles: BMapGL.Circle[] = [];
   private monitorMarkers: BMapGL.Marker[] = [];
 
   private minLng: number = 999;
@@ -194,6 +195,7 @@ export default class Visual extends WynVisual {
 
   private addMonitorArea(){
     this.monitorMarkers = [];
+    this.circles = [];
     this.monitorMarkers = 
     this.properties[OPTIONKEY.CUSTOME_POINT].map(monitor =>{
       let monitorMarker:BMapGL.Marker;
@@ -210,13 +212,14 @@ export default class Visual extends WynVisual {
           let mapPoint = new BMapGL.Point(point[0], point[1]);
           monitorMarker = new BMapGL.Marker(mapPoint);
           let Icon = new BMapGL.Icon(monitor[OPTIONKEY.CUSTOME_IMAGE],
-            new BMapGL.Size(100,100))
+            new BMapGL.Size(50,50))
           monitorMarker.setIcon(Icon);
           // make a monitor point label
           var opts = {
-            width: 200,
+            width: 100,
             height: 100,
-            title: monitor[OPTIONKEY.CUSTOME_POINT_NAME]
+            title: `<p>${monitor[OPTIONKEY.CUSTOME_POINT_NAME]}</p>
+            <p>预警半径: ${monitor[OPTIONKEY.CUSTOM_RADIUS]} m</p>`
         };
         var infoWindow = new BMapGL.InfoWindow('', opts);
           fromEvent(monitorMarker,"click")
@@ -224,13 +227,41 @@ export default class Visual extends WynVisual {
             tap(e => { e.domEvent.stopPropagation();})
           ).subscribe((pointer)=>{
               this.map.openInfoWindow(infoWindow, mapPoint); // 开启信息窗口
-          })
+          });
+
+          let circle = new BMapGL.Circle(mapPoint,monitor[OPTIONKEY.CUSTOM_RADIUS]);
+          if(this.CalculateWarning(circle)){
+            circle.setFillColor(monitor[OPTIONKEY.CUSTOM_WARN_COLOR]);
+            circle.setStrokeColor(monitor[OPTIONKEY.CUSTOM_WARN_COLOR]);
+          } else {
+            circle.setFillColor(monitor[OPTIONKEY.CUSTOM_NORMAL_COLOR]);
+            circle.setStrokeColor(monitor[OPTIONKEY.CUSTOM_NORMAL_COLOR]);
+          }
+          this.circles.push(circle);
         }
         return monitorMarker;
     })
     this.monitorMarkers.map(marker => {
       this.map.addOverlay(marker);
     })
+    this.circles.map(circle => {
+      this.map.addOverlay(circle);
+    })
+  }
+
+  private CalculateWarning(circle:BMapGL.Circle){
+      let isWarnStatus = false;
+      this.points.some(point => {
+        if(this.map.getDistance(
+          circle.getCenter(),
+          point
+        )<= circle.getRadius()){
+          isWarnStatus = true;
+          return true;
+        }
+        return false;
+      })
+      return isWarnStatus;
   }
 
   public onDestroy(): void {}

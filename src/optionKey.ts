@@ -8,7 +8,11 @@ export const enum OPTIONKEY {
     CUSTOME_LNG = "longitude",
     CUSTOME_POINT_NAME = "pointName",
     CUSTOME_COORDINATES = "customeCoordinates",
-    CUSTOME_IMAGE = "pointImage"
+    CUSTOME_IMAGE = "pointImage",
+    CUSTOM_RADIUS = "pointRadius",
+    CUSTOM_NORMAL_COLOR = "pointNormalColor",
+    CUSTOM_WARN_COLOR = "pointWarnColor"
+
 
 
 }

@@ -218,8 +218,7 @@ export default class Visual extends WynVisual {
           var opts = {
             width: 100,
             height: 100,
-            title: `<p>${monitor[OPTIONKEY.CUSTOME_POINT_NAME]}</p>
-            <p>预警半径: ${monitor[OPTIONKEY.CUSTOM_RADIUS]} m</p>`
+            title: monitor[OPTIONKEY.CUSTOME_POINT_NAME]
         };
         var infoWindow = new BMapGL.InfoWindow('', opts);
           fromEvent(monitorMarker,"click")
@@ -256,9 +255,16 @@ export default class Visual extends WynVisual {
           circle.getCenter(),
           point
         )<= circle.getRadius()){
+          console.log(this.map.getDistance(
+            circle.getCenter(),
+            point));
+          
           isWarnStatus = true;
           return true;
         }
+        console.log(this.map.getDistance(
+          circle.getCenter(),
+          point));
         return false;
       })
       return isWarnStatus;

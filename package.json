@@ -1,6 +1,6 @@
 {
   "name": "baidumap",
-  "version": "1.0.05",
+  "version": "1.0.06",
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

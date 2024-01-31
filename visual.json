@@ -1,17 +1,19 @@
 {
     "id": "d0f16ab0-bbf8-11ee-a0db-27c62bd6ec90",
-    "name": "baidumap",
+    "name": "百度预警地图",
     "displayName": "",
     "displayNameKey": "",
-    "icon": "assets/icon.png",
-    "description": "",
+    "icon": "",
+    "description": "visualIcon",
     "externalJs": [
         "{{百度地图服务地址}}&ak={{百度地图API服务密钥}}"
     ],
     "externalCss": [],
     "dependencies": [],
     "assets": {
-        "images": {}
+        "images": {
+            "visualIcon" : "assets/baiduMap.png"
+        }
     },
     "configuration": {
         "百度地图服务地址" : "https://api.map.baidu.com/api?type=webgl&v=1.0&",

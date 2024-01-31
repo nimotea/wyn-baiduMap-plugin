@@ -255,16 +255,9 @@ export default class Visual extends WynVisual {
           circle.getCenter(),
           point
         )<= circle.getRadius()){
-          console.log(this.map.getDistance(
-            circle.getCenter(),
-            point));
-          
           isWarnStatus = true;
           return true;
         }
-        console.log(this.map.getDistance(
-          circle.getCenter(),
-          point));
         return false;
       })
       return isWarnStatus;

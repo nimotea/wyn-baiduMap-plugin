@@ -113,7 +113,7 @@
                         "type": "Integer",
                         "max": 28,
                         "min": 3,
-                        "defaultValue": 3
+                        "defaultValue": 4
                     },
                     {
                         "name": "centralLocation",

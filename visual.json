@@ -3,10 +3,11 @@
     "name": "百度预警地图",
     "displayName": "",
     "displayNameKey": "",
-    "icon": "",
-    "description": "visualIcon",
+    "icon": "visualIcon",
+    "description": "",
     "externalJs": [
-        "{{百度地图服务地址}}&ak={{百度地图API服务密钥}}"
+        "{{百度地图服务地址}}",
+        "{{百度地图冗余服务地址}}"
     ],
     "externalCss": [],
     "dependencies": [],
@@ -16,8 +17,8 @@
         }
     },
     "configuration": {
-        "百度地图服务地址" : "https://api.map.baidu.com/api?type=webgl&v=1.0&",
-        "百度地图API服务密钥" : "OiQtuUjxk83zpXrYSg98lqlh8T5Abysl"
+        "百度地图服务地址" : "https://api.map.baidu.com/api?type=webgl&v=1.0&ak=OiQtuUjxk83zpXrYSg98lqlh8T5Abysl",
+        "百度地图冗余服务地址" : ""
     },
     "cliVersion": "6.1.8"
 }
